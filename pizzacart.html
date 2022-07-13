@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfect Pizza</title>
+<link rel="stylesheet" href="style.css">
+   <script src="//unpkg.com/alpinejs" defer></script>
+</head>
+<body>
+    <div class="container "  x-data="{ showcart: false,
+                            		showmessage: false,
+   									showmakepayment: true,
+  									showPaymentMessage: false,
+                                	small : 0.0,
+   									medium : 0.0,
+   									large : 0.0,
+  									total_cost: 0.0,
+  									amount: '',
+
+   									PaymentMessage: '',
+
+  									smallBuy() {
+   									this.small += 49.00;
+  									 },
+                                      
+   									smallReduce() {
+  									 if (this.small > 0){
+  									 this.small -= 49.00;
+   									}
+  								 	},
+
+ 									mediumBuy() {
+									this.medium += 89.00;
+      								},
+
+  									mediumReduce() {
+									if (this.medium > 0){
+									this.medium -= 89.00;
+									}
+ 								 	 },
+
+  							 		largeBuy() {
+									this.large += 130.00;
+  									 },
+
+   									largeReduce() {
+									if (this.large > 0){
+									this.large -= 130.00;
+									}
+  									 },
+
+  									 Total_cost() {
+   									return this.small + this.medium + this.large;
+  									 },
+
+  									 makepayment(){
+   									if (!this.amount) {
+   									return this.PaymentMessage ='No amount entered!';
+  									 }
+
+  									 if (this.amount >= this.Total_cost() ) {
+									return this.PaymentMessage ='Payment successful!';
+
+									}else{
+									return this.PaymentMessage ='Payment fail';
+									}
+									},
+
+									rest(){
+									setTimeout(() =>{
+									this.showcart= false;
+									this.showmessage= false;
+									this.showmakepayment= true;
+									this.showPaymentMessage= false;
+									this.clear()
+									},3000);
+									},
+
+									clear(){
+									this.small = 0.0;
+									this.medium = 0.0;
+									this.large = 0.0;
+									this.total_cost= 0.0;
+									this.amount= '';
+									}
+
+
+									}">
+     <!-------------------------Front cart-------------------->
+<div class="front-cart">
+
+	<di class="frontImg">
+	<img class="frontImg1" src="image1_2.PNG">
+	<img class="frontImg2" src="image2.PNG">
+	<img class="frontImg3" src="image 3.png">
+</di>
+
+<div class="Head">
+<h1>Perfect Pizza</h1>
+</div>
+
+<div class="OpenBtnCart">
+<button x-on:click="showcart = true; ">Open Cart <img src="cart.jpg" width="30" alt=""></button>
+</div>
+</div>
+
+<!-------------------------End cart------------------------------->
+<div class="End-cart" x-show="showcart" >
+<div class="End-cart1" >
+<button class="CloseBtn" x-on:click="showcart = false; " >close cart <img src="cart.jpg" width="30" alt=""></button>
+<div>Cart <img src="cart.jpg" width="30" alt=""></div>
+
+<table>
+<!--ROW 1-->
+<tr x-show="small > 0">
+<td>Small</td>
+<th>
+<button x-on:click="smallBuy() ">+</button>
+<button x-on:click="smallReduce() ">-</button>
+</th>
+
+<th>
+R<span x-text="small"></span>
+</th>
+  
+</tr>
+
+<tr x-show="medium > 0">
+<td>Medium</td>
+<th>
+<button x-on:click="mediumBuy() ">+</button>
+<button x-on:click="mediumReduce() ">-</button>
+</th>
+<th>
+R<span x-text="medium"></span>
+</th>
+</tr>
+
+
+<tr x-show="large > 0">
+<td>Large</td>
+<th>
+<button x-on:click="largeBuy() ">+</button>
+<button x-on:click="largeReduce() ">-</button>
+</th>
+<th>
+R<span x-text="large"></span>
+</th>
+</tr>
+
+<tr x-show="Total_cost() > 0">
+<td colspan="2">Total cost</td>
+<th>
+R<span x-text="Total_cost().toFixed(2)"></span>
+</th>
+</tr>
+
+<tr>
+<td colspan="2">
+   <div class="paymentMessage" style="background-color: grey;" x-text="PaymentMessage" x-show="showPaymentMessage"></div>
+   <div x-show="showmessage">
+<label for="amount" style="text-align: center;"> Payment amount:</label>
+<input type="text" x-model="amount" id="amount" placeholder="Enter amount">
+<span>
+<button style="color:grey" x-on:click="makepayment(),showPaymentMessage = true,showcart = true, rest()">Pay</button>
+</span>
+   </div>
+   </td>
+<th>
+<button style="color:grey" x-show="showmakepayment"  x-on:click=" showmessage = true, showmakepayment = false"> Make payment<img src="cart.jpg" width="30" alt=""></button>
+</th>
+</tr>
+</table>
+</div>
+</div>
+
+<div class="pizzas">
+<div class="pizza small_pizza">
+
+   <img src="image1_2.PNG">
+<h1>Small Pizza</h1>
+<h3>R25.99</h3>
+<button x-on:click="smallBuy()" >Buy</button>
+<div><p><strong>Toppings</strong></p>
+	<p>Pepperoni & Olive</p>
+	<p>Green pepper</p>
+	<p>Extra Cheese</p></div>
+</div>
+
+<div class="pizza medium_pizza">
+<img src="image2.PNG">
+<h1>Medium Pizza</h1>
+<h3>R54.99</h3>
+<button x-on:click="mediumBuy()" >Buy</button>
+<div><p> <strong>Toppings</strong> </p>
+	<p> Chicken.</p>
+	<p>Pineapple</p>
+	<P>Cheese</P></div>
+</div>
+
+
+<div class="pizza large_pizza">
+<img src="image 3.png">
+
+<h1>Large Pizza</h1>
+<h3>R107.90</h3>
+<button x-on:click="largeBuy()" >Buy</button>
+<div> <p><strong>Toppings</strong></p>
+	<p>BBQ Bacon</p>
+	<p>Sweet and sour sauce</p>
+	<p>Cheese</p></div>
+</div>
+</div>
+
+<div class="pizza contact_us">
+<h2>Contact Details</h2>
+contact us at: 011 242 3542 Info@perfectpizza.co.za
+</div>
+</div>
+
+</body>
+</html>
+
+
